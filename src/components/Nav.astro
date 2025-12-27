@@ -1,0 +1,38 @@
+---
+import { ui, defaultLang } from "../i18n/ui";
+
+const { nav, couple, dateDisplay, lang = defaultLang } = Astro.props;
+const t = ui[lang as keyof typeof ui] || ui[defaultLang];
+
+const getPath = (href: string) => `/${lang}${href}`;
+---
+
+<header
+  class="sticky top-0 z-20 bg-[color:var(--bg)]/85 backdrop-blur border-b border-black/10"
+>
+  <div class="container-narrow flex items-center justify-between py-4">
+    <a href={`/${lang}/`} class="tracking-wide text-sm md:text-base">
+      <span class="font-medium">{couple}</span>
+      <span class="text-black/60"> · {dateDisplay}</span>
+    </a>
+
+    <nav class="hidden md:flex gap-6 text-sm">
+      <a href={getPath("#story")} class="link no-underline hover:underline">
+        {t["nav.story"]}
+      </a>
+      <a href={getPath("#travel")} class="link no-underline hover:underline">
+        {t["nav.travel"]}
+      </a>
+      <a href={getPath("#registry")} class="link no-underline hover:underline">
+        {t["nav.registry"]}
+      </a>
+      <a href={getPath("#rsvp")} class="link no-underline hover:underline">
+        {t["nav.rsvp"]}
+      </a>
+    </nav>
+
+    <a href={getPath("#rsvp")} class="md:hidden text-sm link no-underline"
+      >{t["nav.rsvp"]}</a
+    >
+  </div>
+</header>

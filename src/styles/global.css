@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+html { scroll-behavior: smooth; }
+
+:root {
+  --bg: #f6f6f4;
+}
+
+body {
+  background: var(--bg);
+}
+
+.container-narrow {
+  @apply mx-auto w-full max-w-5xl px-6;
+}
+
+.card {
+  @apply bg-white/70 backdrop-blur border border-black/10 rounded-2xl shadow-sm;
+}
+
+.link {
+  @apply underline underline-offset-4 decoration-black/30 hover:decoration-black/70;
+}

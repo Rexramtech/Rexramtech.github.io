@@ -1,0 +1,147 @@
+---
+import { ui, defaultLang } from "../i18n/ui";
+
+const { lang = defaultLang } = Astro.props;
+const t = ui[lang as keyof typeof ui] || ui[defaultLang];
+const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
+---
+
+<div class="card p-6 md:p-10">
+  <p class="text-black/70 mb-6">
+    {t["rsvp.deadlinemsg"]}
+  </p>
+
+  {
+    !rsvpEndpoint && (
+      <p class="mb-6 text-sm text-red-700">
+        Missing <code>PUBLIC_RSVP_ENDPOINT</code>. Set it in <code>.env</code>{" "}
+        or GitHub Actions secrets.
+      </p>
+    )
+  }
+
+  <iframe name="rsvp_hidden_iframe" class="hidden"></iframe>
+
+  <form
+    id="rsvpForm"
+    class="grid gap-4"
+    action={rsvpEndpoint}
+    method="POST"
+    target="rsvp_hidden_iframe"
+    data-lang={lang}
+  >
+    <div class="grid md:grid-cols-2 gap-4">
+      <label class="grid gap-1">
+        <span class="text-sm text-black/70">{t["rsvp.fullname"]}</span>
+        <input
+          name="fullName"
+          required
+          class="rounded-xl border border-black/15 px-4 py-3 bg-white"
+        />
+      </label>
+
+      <label class="grid gap-1">
+        <span class="text-sm text-black/70">{t["rsvp.email"]}</span>
+        <input
+          name="email"
+          type="email"
+          class="rounded-xl border border-black/15 px-4 py-3 bg-white"
+        />
+      </label>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <label class="grid gap-1">
+        <span class="text-sm text-black/70">{t["rsvp.attending"]}</span>
+        <select
+          name="attending"
+          required
+          class="rounded-xl border border-black/15 px-4 py-3 bg-white"
+        >
+          <option value="yes">{t["rsvp.yes"]}</option>
+          <option value="no">{t["rsvp.no"]}</option>
+        </select>
+      </label>
+
+      <label class="grid gap-1">
+        <span class="text-sm text-black/70">{t["rsvp.guests"]}</span>
+        <input
+          name="guests"
+          type="number"
+          min="1"
+          max="10"
+          value="1"
+          class="rounded-xl border border-black/15 px-4 py-3 bg-white"
+        />
+      </label>
+    </div>
+
+    <label class="grid gap-1">
+      <span class="text-sm text-black/70">{t["rsvp.dietary"]}</span>
+      <input
+        name="dietary"
+        class="rounded-xl border border-black/15 px-4 py-3 bg-white"
+      />
+    </label>
+
+    <label class="grid gap-1">
+      <span class="text-sm text-black/70">{t["rsvp.message"]}</span>
+      <textarea
+        name="message"
+        rows="4"
+        class="rounded-xl border border-black/15 px-4 py-3 bg-white"></textarea>
+    </label>
+
+    <!-- Honeypot (spam trap): bots fill it, humans won't -->
+    <input name="website" tabindex="-1" autocomplete="off" class="hidden" />
+
+    <button
+      id="rsvpBtn"
+      type="submit"
+      class="mt-2 rounded-xl bg-black text-white px-5 py-3 hover:opacity-90 disabled:opacity-60"
+      disabled={!rsvpEndpoint}
+    >
+      {t["rsvp.send"]}
+    </button>
+
+    <p id="rsvpStatus" class="text-sm text-black/70"></p>
+  </form>
+</div>
+
+<!-- Pass translations to Client Script via data attributes or simpler: define a global dictionary relative to this component instance? 
+     A cleaner approach for Vanilla JS script tag inside .astro is to inject strings into data-attributes of the form or status element.
+-->
+<div
+  id="i18n-data"
+  class="hidden"
+  data-sending={t["rsvp.sending"]}
+  data-sent={t["rsvp.sent"]}
+  data-success={t["rsvp.success"]}
+>
+</div>
+
+<script>
+  const form = document.getElementById("rsvpForm");
+  const btn = document.getElementById("rsvpBtn");
+  const status = document.getElementById("rsvpStatus");
+  const i18n = document.getElementById("i18n-data");
+
+  if (form && btn && status && i18n) {
+    const tSending = i18n.dataset.sending;
+    const tSent = i18n.dataset.sent;
+    const tSuccess = i18n.dataset.success;
+
+    form.addEventListener("submit", () => {
+      btn.disabled = true;
+      btn.textContent = tSending;
+
+      // With cross-origin form POST we can't reliably read the response.
+      // So we show a friendly optimistic success message after a short delay.
+      window.setTimeout(() => {
+        status.textContent = tSuccess;
+        btn.textContent = tSent;
+        form.reset();
+      }, 600);
+    });
+  }
+</script>
