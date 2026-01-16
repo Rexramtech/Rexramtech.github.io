@@ -1,7 +1,7 @@
 ---
 import { ui, defaultLang } from "../i18n/ui";
 
-const { nav, couple, dateDisplay, lang = defaultLang } = Astro.props;
+const { couple, dateDisplay, lang = defaultLang } = Astro.props;
 const t = ui[lang as keyof typeof ui] || ui[defaultLang];
 
 const getPath = (href: string) => `/${lang}${href}`;
@@ -17,17 +17,20 @@ const getPath = (href: string) => `/${lang}${href}`;
     </a>
 
     <nav class="hidden md:flex gap-6 text-sm">
-      <a href={getPath("#story")} class="link no-underline hover:underline">
-        {t["nav.story"]}
+      <a href={getPath("#ceremony")} class="link no-underline hover:underline">
+        {t["nav.ceremony"]}
       </a>
-      <a href={getPath("#travel")} class="link no-underline hover:underline">
-        {t["nav.travel"]}
-      </a>
-      <a href={getPath("#registry")} class="link no-underline hover:underline">
-        {t["nav.registry"]}
+      <a
+        href={getPath("#celebration")}
+        class="link no-underline hover:underline"
+      >
+        {t["nav.celebration"]}
       </a>
       <a href={getPath("#rsvp")} class="link no-underline hover:underline">
         {t["nav.rsvp"]}
+      </a>
+      <a href={getPath("#contact")} class="link no-underline hover:underline">
+        {t["nav.contact"]}
       </a>
     </nav>
 

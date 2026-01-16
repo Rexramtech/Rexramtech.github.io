@@ -9,6 +9,7 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
 <div class="card p-6 md:p-10">
   <p class="text-black/70 mb-6">
     {t["rsvp.deadlinemsg"]}
+    <strong>{t["rsvp.deadline"]}</strong>.
   </p>
 
   {
@@ -106,42 +107,42 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
 
     <p id="rsvpStatus" class="text-sm text-black/70"></p>
   </form>
-</div>
 
-<!-- Pass translations to Client Script via data attributes or simpler: define a global dictionary relative to this component instance? 
+  <!-- Pass translations to Client Script via data attributes or simpler: define a global dictionary relative to this component instance? 
      A cleaner approach for Vanilla JS script tag inside .astro is to inject strings into data-attributes of the form or status element.
 -->
-<div
-  id="i18n-data"
-  class="hidden"
-  data-sending={t["rsvp.sending"]}
-  data-sent={t["rsvp.sent"]}
-  data-success={t["rsvp.success"]}
->
+  <div
+    id="i18n-data"
+    class="hidden"
+    data-sending={t["rsvp.sending"]}
+    data-sent={t["rsvp.sent"]}
+    data-success={t["rsvp.success"]}
+  >
+  </div>
+
+  <script>
+    const form = document.getElementById("rsvpForm");
+    const btn = document.getElementById("rsvpBtn");
+    const status = document.getElementById("rsvpStatus");
+    const i18n = document.getElementById("i18n-data");
+
+    if (form && btn && status && i18n) {
+      const tSending = i18n.dataset.sending;
+      const tSent = i18n.dataset.sent;
+      const tSuccess = i18n.dataset.success;
+
+      form.addEventListener("submit", () => {
+        btn.disabled = true;
+        btn.textContent = tSending;
+
+        // With cross-origin form POST we can't reliably read the response.
+        // So we show a friendly optimistic success message after a short delay.
+        window.setTimeout(() => {
+          status.textContent = tSuccess;
+          btn.textContent = tSent;
+          form.reset();
+        }, 600);
+      });
+    }
+  </script>
 </div>
-
-<script>
-  const form = document.getElementById("rsvpForm");
-  const btn = document.getElementById("rsvpBtn");
-  const status = document.getElementById("rsvpStatus");
-  const i18n = document.getElementById("i18n-data");
-
-  if (form && btn && status && i18n) {
-    const tSending = i18n.dataset.sending;
-    const tSent = i18n.dataset.sent;
-    const tSuccess = i18n.dataset.success;
-
-    form.addEventListener("submit", () => {
-      btn.disabled = true;
-      btn.textContent = tSending;
-
-      // With cross-origin form POST we can't reliably read the response.
-      // So we show a friendly optimistic success message after a short delay.
-      window.setTimeout(() => {
-        status.textContent = tSuccess;
-        btn.textContent = tSent;
-        form.reset();
-      }, 600);
-    });
-  }
-</script>

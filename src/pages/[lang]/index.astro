@@ -6,6 +6,20 @@ import RsvpForm from "../../components/RsvpForm.astro";
 import { wedding } from "../../data/wedding";
 import { ui, languages, defaultLang } from "../../i18n/ui";
 
+// Image imports
+import churchDrawing from "../../assets/church_location_drawing.png";
+import churchPhoto from "../../assets/church_location_photo.jpeg";
+import receptionDrawing from "../../assets/reception_location_drawing.png";
+import receptionPhoto from "../../assets/reception_location_photo.jpeg";
+
+// Image style toggle: 'drawing' or 'photo'
+const imageStyle = import.meta.env.PUBLIC_IMAGE_STYLE || "drawing";
+const isDrawingMode = imageStyle === "drawing";
+
+// Select images based on style
+const ceremonyImage = isDrawingMode ? churchDrawing : churchPhoto;
+const receptionImage = isDrawingMode ? receptionDrawing : receptionPhoto;
+
 export function getStaticPaths() {
   return Object.keys(languages).map((lang) => ({ params: { lang } }));
 }
@@ -17,12 +31,7 @@ const t = ui[currentLang];
 ---
 
 <BaseLayout title={`${data.couple} · ${data.dateDisplay}`}>
-  <Nav
-    nav={wedding.en.nav}
-    couple={data.couple}
-    dateDisplay={data.dateDisplay}
-    lang={currentLang}
-  />
+  <Nav couple={data.couple} dateDisplay={data.dateDisplay} lang={currentLang} />
 
   <!-- HERO -->
   <main>
@@ -30,7 +39,7 @@ const t = ui[currentLang];
       <div class="h-[70vh] min-h-[520px] w-full">
         <img
           src={`${import.meta.env.BASE_URL}hero.jpg`}
-          alt="Couple photo"
+          alt="Sergio & Bárbara"
           class="h-full w-full object-cover"
           loading="eager"
         />
@@ -40,11 +49,11 @@ const t = ui[currentLang];
 
       <div class="absolute inset-0 flex items-center">
         <div class="container-narrow">
-          <p class="text-white/90 tracking-wide">{data.headline}</p>
-          <h1 class="mt-3 text-white text-4xl md:text-6xl tracking-tight">
-            {data.couple}
+          <h1 class="text-white text-4xl md:text-6xl tracking-tight">
+            {data.headline}
           </h1>
-          <p class="mt-4 text-white/90 text-lg">{data.dateDisplay}</p>
+          <p class="mt-4 text-white/90 text-lg">{data.couple}</p>
+          <p class="mt-2 text-white/80">{data.dateDisplay}</p>
 
           <div class="mt-8 flex gap-3">
             <a
@@ -54,7 +63,7 @@ const t = ui[currentLang];
               {t["hero.rsvp"]}
             </a>
             <a
-              href={`/${currentLang}#details`}
+              href={`/${currentLang}#ceremony`}
               class="rounded-xl bg-black/40 text-white px-5 py-3 hover:bg-black/55"
             >
               {t["hero.details"]}
@@ -64,113 +73,113 @@ const t = ui[currentLang];
       </div>
     </section>
 
-    <!-- DETAILS -->
-    <Section id="details" title="">
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="card p-6 md:p-10">
-          <h2 class="text-2xl mb-2">{t["ceremony.title"]}</h2>
-          <p class="text-black/70">{data.ceremony.time}</p>
-          <p class="mt-4 font-medium">{data.ceremony.place}</p>
-          <p class="text-black/70">
+    <!-- WELCOME MESSAGE -->
+    <Section id="welcome" title="">
+      <div class="card p-8 md:p-12 text-center">
+        <p class="text-lg md:text-xl text-black/80 leading-relaxed">
+          {data.welcomeMessage}
+        </p>
+      </div>
+    </Section>
+
+    <!-- CEREMONY -->
+    <Section id="ceremony" title={t["ceremony.title"]}>
+      <div class="card overflow-hidden">
+        <img
+          src={ceremonyImage.src}
+          alt={data.ceremony.place}
+          class="w-full h-64 md:h-80 object-cover"
+          loading="lazy"
+        />
+        <div class="p-6 md:p-10">
+          <p class="text-black/70 mb-2">{data.ceremony.date}</p>
+          <p class="text-black/70 mb-4">{data.ceremony.time}</p>
+          <p class="text-xl font-medium">{data.ceremony.place}</p>
+          <p class="text-black/70 mt-2">
             {data.ceremony.addressLines.join(" · ")}
           </p>
-          <a
-            class="link inline-block mt-4"
-            href={data.ceremony.mapUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {t["ceremony.map"]}
-          </a>
+          {
+            data.ceremony.mapUrl !== "#" && (
+              <a
+                class="link inline-block mt-4"
+                href={data.ceremony.mapUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {t["ceremony.map"]}
+              </a>
+            )
+          }
         </div>
+      </div>
+    </Section>
 
-        <div class="card p-6 md:p-10">
-          <h2 class="text-2xl mb-2">{t["reception.title"]}</h2>
-          <p class="text-black/70">{data.reception.time}</p>
-          <p class="mt-4 font-medium">{data.reception.place}</p>
-          <p class="text-black/70">
+    <!-- CELEBRATION -->
+    <Section id="celebration" title={t["celebration.title"]}>
+      <div class="card overflow-hidden">
+        <img
+          src={receptionImage.src}
+          alt={data.reception.place}
+          class="w-full h-64 md:h-80 object-cover"
+          loading="lazy"
+        />
+        <div class="p-6 md:p-10">
+          <p class="text-xl font-medium">
+            {data.reception.place} - {data.reception.location}
+          </p>
+          <p class="text-black/70 mt-2">
             {data.reception.addressLines.join(" · ")}
           </p>
-          <a
-            class="link inline-block mt-4"
-            href={data.reception.mapUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {t["reception.map"]}
-          </a>
-        </div>
-      </div>
-    </Section>
-
-    <Section id="story" title={t["story.title"]}>
-      <div class="card p-6 md:p-10 space-y-4 text-black/80">
-        <p>{data.story.text}</p>
-        <p>
-          {data.story.subtext}
-        </p>
-      </div>
-    </Section>
-
-    <Section id="travel" title={t["travel.title"]}>
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="card p-6 md:p-10">
-          <h3 class="text-xl mb-3">{t["travel.getting_there"]}</h3>
-          <p class="text-black/80">
-            {data.travel.gettingThere}
+          <p class="text-black/80 mt-4">
+            {data.reception.description}
           </p>
-        </div>
-        <div class="card p-6 md:p-10">
-          <h3 class="text-xl mb-3">{t["travel.hotels"]}</h3>
-          <ul class="list-disc pl-6 text-black/80 space-y-2">
-            {
-              data.travel.hotels.map((hotel) => (
-                <li>
-                  <a
-                    class="link"
-                    href={hotel.url}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {hotel.name}
-                  </a>{" "}
-                  — {hotel.note}
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-      </div>
-    </Section>
-
-    <Section id="registry" title={t["registry.title"]}>
-      <div class="card p-6 md:p-10 text-black/80 space-y-4">
-        <p>{data.registry.text}</p>
-        <p>
           {
-            data.registry.links.map((link) => (
-              <span>
-                <a
-                  class="link"
-                  href={link.url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {link.label}
-                </a>
-              </span>
-            ))
+            data.reception.mapUrl !== "#" && (
+              <a
+                class="link inline-block mt-4"
+                href={data.reception.mapUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {t["celebration.map"]}
+              </a>
+            )
           }
-        </p>
+        </div>
       </div>
     </Section>
 
-    <Section id="rsvp" title={t["rsvp.title"]}>
+    <!-- ATTENDANCE / RSVP -->
+    <Section id="rsvp" title={t["attendance.title"]}>
       <RsvpForm lang={currentLang} />
+      <p class="text-center mt-8 text-xl">{t["attendance.thanks"]}</p>
+    </Section>
+
+    <!-- CONTACT -->
+    <Section id="contact" title={t["contact.title"]}>
+      <div class="card p-6 md:p-10 text-center space-y-6">
+        <p class="text-black/80">
+          {data.contact.message}
+        </p>
+        <div class="flex flex-col md:flex-row justify-center gap-6 md:gap-12">
+          <div>
+            <p class="font-medium text-lg">{data.contact.sergio.name}</p>
+            <a href={`tel:${data.contact.sergio.phone}`} class="link">
+              {data.contact.sergio.phone}
+            </a>
+          </div>
+          <div>
+            <p class="font-medium text-lg">{data.contact.barbara.name}</p>
+            <a href={`tel:${data.contact.barbara.phone}`} class="link">
+              {data.contact.barbara.phone}
+            </a>
+          </div>
+        </div>
+      </div>
     </Section>
 
     <footer class="py-16">
-      <div class="container-narrow text-sm text-black/60">
+      <div class="container-narrow text-center text-sm text-black/60">
         {t["footer.built_with"]}
       </div>
     </footer>

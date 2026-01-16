@@ -1,104 +1,89 @@
 export const wedding = {
   en: {
-    couple: "Soria & Antoine",
-    dateDisplay: "10 · 14 · 20",
-    headline: "We’re Getting Married!",
+    couple: "Sergio & Bárbara",
+    dateDisplay: "09 · 19 · 2026",
+    headline: "We're Getting Married!",
+    welcomeMessage: "We are so excited that you are here and that you will share this special day with us. Nothing would make sense without the people we love, and you are one of them. Thank you for joining us. 💕",
     ceremony: {
-      time: "4:00 PM",
-      place: "Grace Church",
-      addressLines: ["37 Bear Blvd", "Flagstaff, AZ 86001"],
-      mapUrl: "https://maps.google.com/?q=Grace%20Church%20Flagstaff",
+      date: "Saturday, September 19, 2026",
+      time: "12:30 PM",
+      place: "La Colegiata de Gandía",
+      addressLines: ["Gandía, Valencia"],
+      mapUrl: "#",
     },
     reception: {
-      time: "4:30 PM – 10:00 PM",
-      place: "The Barrel Keg",
-      addressLines: ["51 Dirt Rd", "Flagstaff, AZ 86001"],
-      mapUrl: "https://maps.google.com/?q=The%20Barrel%20Keg%20Flagstaff",
+      place: "Santa María de Aguas Vivas",
+      location: "Alzira",
+      addressLines: ["Alzira, Valencia"],
+      mapUrl: "#",
+      description: "After the ceremony, we will celebrate together at the family estate, where we will continue with cocktails, dinner, and the party.",
     },
-    story: {
-      text: "Write their story here. Keep it short and sweet.",
-      subtext: "Add 1–3 photos later if you want, but the minimalist look works great with text too."
+    attendance: {
+      deadline: "03/05/2026",
+      message: "To help us with the organization, please confirm your attendance by filling out the form before",
     },
-    travel: {
-      gettingThere: "Nearest airport, train options, driving, etc.",
-      hotels: [
-        { name: "Hotel One", url: "#", note: "code WEDDING" },
-        { name: "Hotel Two", url: "#", note: "near venue" }
-      ]
+    contact: {
+      message: "For any questions, we are just a message away. Thank you for joining us on such a special day for us. 💕",
+      sergio: { name: "Sergio", phone: "667156777" },
+      barbara: { name: "Bárbara", phone: "685500036" },
     },
-    registry: {
-      text: "Add links to registry pages (or just a note).",
-      links: [
-        { label: "Registry link", url: "#" }
-      ]
-    }
   },
   es: {
-    couple: "Soria & Antoine",
-    dateDisplay: "14 · 10 · 20",
-    headline: "¡Nos Casamos!",
+    couple: "Sergio & Bárbara",
+    dateDisplay: "19 · 09 · 2026",
+    headline: "¡Nos casamos!",
+    welcomeMessage: "Nos hace muchísima ilusión que estés aquí y que compartas con nosotros este día tan especial. Nada tendría sentido sin las personas que queremos, y tú eres una de ellas. Gracias por acompañarnos. 💕",
     ceremony: {
-      time: "4:00 PM",
-      place: "Iglesia Grace",
-      addressLines: ["37 Bear Blvd", "Flagstaff, AZ 86001"],
-      mapUrl: "https://maps.google.com/?q=Grace%20Church%20Flagstaff",
+      date: "Sábado 19 de Septiembre de 2026",
+      time: "12:30 h",
+      place: "La Colegiata de Gandía",
+      addressLines: ["Gandía, Valencia"],
+      mapUrl: "#",
     },
     reception: {
-      time: "4:30 PM – 10:00 PM",
-      place: "The Barrel Keg",
-      addressLines: ["51 Dirt Rd", "Flagstaff, AZ 86001"],
-      mapUrl: "https://maps.google.com/?q=The%20Barrel%20Keg%20Flagstaff",
+      place: "Santa María de Aguas Vivas",
+      location: "Alzira",
+      addressLines: ["Alzira, Valencia"],
+      mapUrl: "#",
+      description: "Después de la ceremonia, celebraremos juntos en la finca familiar, donde continuaremos con el cóctel, la comida y la fiesta.",
     },
-    story: {
-      text: "Escribe su historia aquí. Breve y dulce.",
-      subtext: "Añade 1-3 fotos si quieres, pero el estilo minimalista funciona genial solo con texto."
+    attendance: {
+      deadline: "05/03/2026",
+      message: "Para ayudarnos con la organización, por favor confirma tu asistencia rellenando el formulario antes del",
     },
-    travel: {
-      gettingThere: "Aeropuerto más cercano, tren, coche, etc.",
-      hotels: [
-        { name: "Hotel Uno", url: "#", note: "código BODA" },
-        { name: "Hotel Dos", url: "#", note: "cerca del lugar" }
-      ]
+    contact: {
+      message: "Para cualquier duda, estamos a un mensaje de distancia. Gracias por acompañarnos en un día tan especial para nosotros. 💕",
+      sergio: { name: "Sergio", phone: "667156777" },
+      barbara: { name: "Bárbara", phone: "685500036" },
     },
-    registry: {
-      text: "Añade enlaces a listas de regalos (o solo una nota).",
-      links: [
-        { label: "Enlace al registro", url: "#" }
-      ]
-    }
   },
   pt: {
-    couple: "Soria & Antoine",
-    dateDisplay: "14 · 10 · 20",
+    couple: "Sergio & Bárbara",
+    dateDisplay: "19 · 09 · 2026",
     headline: "Vamos nos Casar!",
+    welcomeMessage: "Estamos muito felizes que você está aqui e que vai compartilhar conosco este dia tão especial. Nada faria sentido sem as pessoas que amamos, e você é uma delas. Obrigado por nos acompanhar. 💕",
     ceremony: {
-      time: "16:00",
-      place: "Igreja Grace",
-      addressLines: ["37 Bear Blvd", "Flagstaff, AZ 86001"],
-      mapUrl: "https://maps.google.com/?q=Grace%20Church%20Flagstaff",
+      date: "Sábado, 19 de Setembro de 2026",
+      time: "12:30",
+      place: "La Colegiata de Gandía",
+      addressLines: ["Gandía, Valencia"],
+      mapUrl: "#",
     },
     reception: {
-      time: "16:30 – 22:00",
-      place: "The Barrel Keg",
-      addressLines: ["51 Dirt Rd", "Flagstaff, AZ 86001"],
-      mapUrl: "https://maps.google.com/?q=The%20Barrel%20Keg%20Flagstaff",
+      place: "Santa María de Aguas Vivas",
+      location: "Alzira",
+      addressLines: ["Alzira, Valencia"],
+      mapUrl: "#",
+      description: "Após a cerimônia, celebraremos juntos na propriedade da família, onde continuaremos com o coquetel, o jantar e a festa.",
     },
-    story: {
-      text: "Escreva a história deles aqui. Curta e doce.",
-      subtext: "Adicione 1-3 fotos depois se quiser, mas o visual minimalista funciona bem só com texto."
+    attendance: {
+      deadline: "05/03/2026",
+      message: "Para nos ajudar com a organização, por favor confirme sua presença preenchendo o formulário antes de",
     },
-    travel: {
-      gettingThere: "Aeroporto mais próximo, trem, carro, etc.",
-      hotels: [
-        { name: "Hotel Um", url: "#", note: "código CASAMENTO" },
-        { name: "Hotel Dois", url: "#", note: "perto do local" }
-      ]
+    contact: {
+      message: "Para qualquer dúvida, estamos a uma mensagem de distância. Obrigado por nos acompanhar em um dia tão especial para nós. 💕",
+      sergio: { name: "Sergio", phone: "667156777" },
+      barbara: { name: "Bárbara", phone: "685500036" },
     },
-    registry: {
-      text: "Adicione links para listas de presentes (ou apenas uma nota).",
-      links: [
-        { label: "Link da lista", url: "#" }
-      ]
-    }
   }
 };
