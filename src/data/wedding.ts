@@ -1,21 +1,20 @@
 export const wedding = {
   en: {
     couple: "Sergio & Bárbara",
-    dateDisplay: "09 · 19 · 2026",
+    dateDisplay: "19 · 09 · 2026",
     headline: "We're Getting Married!",
     welcomeMessage: "We are so excited that you are here and that you will share this special day with us. Nothing would make sense without the people we love, and you are one of them. Thank you for joining us. 💕",
     ceremony: {
       date: "Saturday, September 19, 2026",
       time: "12:30 PM",
       place: "La Colegiata de Gandía",
-      addressLines: ["Gandía, Valencia"],
-      mapUrl: "#",
+      addressLines: ["Plaza Apóstoles, 3", "Carrer de l'Abadia, 7", "46701 Gandia, Valencia"],
+      mapUrl: "https://maps.app.goo.gl/rrgh2gMwPXh52HJb8",
     },
     reception: {
       place: "Santa María de Aguas Vivas",
-      location: "Alzira",
       addressLines: ["Alzira, Valencia"],
-      mapUrl: "#",
+      mapUrl: "https://maps.app.goo.gl/zBy6uRpTWsb3sqjo9",
       description: "After the ceremony, we will celebrate together at the family estate, where we will continue with cocktails, dinner, and the party.",
     },
     attendance: {
@@ -37,14 +36,13 @@ export const wedding = {
       date: "Sábado 19 de Septiembre de 2026",
       time: "12:30 h",
       place: "La Colegiata de Gandía",
-      addressLines: ["Gandía, Valencia"],
-      mapUrl: "#",
+      addressLines: ["Plaza Apóstoles, 3", "Carrer de l'Abadia, 7", "46701 Gandia, Valencia"],
+      mapUrl: "https://maps.app.goo.gl/rrgh2gMwPXh52HJb8",
     },
     reception: {
       place: "Santa María de Aguas Vivas",
-      location: "Alzira",
       addressLines: ["Alzira, Valencia"],
-      mapUrl: "#",
+      mapUrl: "https://maps.app.goo.gl/zBy6uRpTWsb3sqjo9",
       description: "Después de la ceremonia, celebraremos juntos en la finca familiar, donde continuaremos con el cóctel, la comida y la fiesta.",
     },
     attendance: {
@@ -66,14 +64,13 @@ export const wedding = {
       date: "Sábado, 19 de Setembro de 2026",
       time: "12:30",
       place: "La Colegiata de Gandía",
-      addressLines: ["Gandía, Valencia"],
-      mapUrl: "#",
+      addressLines: ["Plaza Apóstoles, 3", "Carrer de l'Abadia, 7", "46701 Gandia, Valencia"],
+      mapUrl: "https://maps.app.goo.gl/rrgh2gMwPXh52HJb8",
     },
     reception: {
       place: "Santa María de Aguas Vivas",
-      location: "Alzira",
       addressLines: ["Alzira, Valencia"],
-      mapUrl: "#",
+      mapUrl: "https://maps.app.goo.gl/zBy6uRpTWsb3sqjo9",
       description: "Após a cerimônia, celebraremos juntos na propriedade da família, onde continuaremos com o coquetel, o jantar e a festa.",
     },
     attendance: {

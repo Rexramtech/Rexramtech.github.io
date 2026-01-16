@@ -33,75 +33,62 @@ const t = ui[currentLang];
 <BaseLayout title={`${data.couple} · ${data.dateDisplay}`}>
   <Nav couple={data.couple} dateDisplay={data.dateDisplay} lang={currentLang} />
 
-  <!-- HERO -->
   <main>
-    <section class="relative">
-      <div class="h-[70vh] min-h-[520px] w-full">
-        <img
-          src={`${import.meta.env.BASE_URL}hero.jpg`}
-          alt="Sergio & Bárbara"
-          class="h-full w-full object-cover"
-          loading="eager"
-        />
+    <!-- HERO - Full bleed with overlay -->
+    <section class="hero">
+      <img
+        src={`${import.meta.env.BASE_URL}hero.jpg`}
+        alt={data.couple}
+        class="hero-bg"
+        loading="eager"
+      />
+      <div class="hero-overlay"></div>
+
+      <!-- Text at top -->
+      <div class="hero-top">
+        <p class="hero-tagline">{data.headline}</p>
+        <h1 class="hero-title">{data.couple}</h1>
+        <p class="hero-date">{data.dateDisplay}</p>
       </div>
 
-      <div class="absolute inset-0 bg-black/20"></div>
-
-      <div class="absolute inset-0 flex items-center">
-        <div class="container-narrow">
-          <h1 class="text-white text-4xl md:text-6xl tracking-tight">
-            {data.headline}
-          </h1>
-          <p class="mt-4 text-white/90 text-lg">{data.couple}</p>
-          <p class="mt-2 text-white/80">{data.dateDisplay}</p>
-
-          <div class="mt-8 flex gap-3">
-            <a
-              href={`/${currentLang}#rsvp`}
-              class="rounded-xl bg-white text-black px-5 py-3 hover:opacity-90"
-            >
-              {t["hero.rsvp"]}
-            </a>
-            <a
-              href={`/${currentLang}#ceremony`}
-              class="rounded-xl bg-black/40 text-white px-5 py-3 hover:bg-black/55"
-            >
-              {t["hero.details"]}
-            </a>
-          </div>
-        </div>
+      <!-- Buttons at bottom -->
+      <div class="hero-bottom">
+        <a href={`/${currentLang}#rsvp`} class="btn btn-light"
+          >{t["hero.rsvp"]}</a
+        >
+        <a href={`/${currentLang}#ceremony`} class="btn btn-light-outline"
+          >{t["hero.details"]}</a
+        >
       </div>
     </section>
 
     <!-- WELCOME MESSAGE -->
-    <Section id="welcome" title="">
-      <div class="card p-8 md:p-12 text-center">
-        <p class="text-lg md:text-xl text-black/80 leading-relaxed">
-          {data.welcomeMessage}
-        </p>
+    <Section id="welcome">
+      <div class="welcome-content">
+        <p class="welcome-text">{data.welcomeMessage}</p>
       </div>
     </Section>
 
-    <!-- CEREMONY -->
+    <!-- CEREMONY - Asymmetric layout -->
     <Section id="ceremony" title={t["ceremony.title"]}>
-      <div class="card overflow-hidden">
+      <div class="asymmetric-section">
         <img
           src={ceremonyImage.src}
           alt={data.ceremony.place}
-          class="w-full h-64 md:h-80 object-cover"
+          class="section-image"
           loading="lazy"
         />
-        <div class="p-6 md:p-10">
-          <p class="text-black/70 mb-2">{data.ceremony.date}</p>
-          <p class="text-black/70 mb-4">{data.ceremony.time}</p>
-          <p class="text-xl font-medium">{data.ceremony.place}</p>
-          <p class="text-black/70 mt-2">
-            {data.ceremony.addressLines.join(" · ")}
+        <div class="section-content">
+          <h3 class="location-time">{data.ceremony.time}</h3>
+          <p class="location-name">{data.ceremony.place}</p>
+          <p class="location-address">
+            {data.ceremony.addressLines.join(", ")}
           </p>
+          <p class="location-date">{data.ceremony.date}</p>
           {
             data.ceremony.mapUrl !== "#" && (
               <a
-                class="link inline-block mt-4"
+                class="link location-link"
                 href={data.ceremony.mapUrl}
                 target="_blank"
                 rel="noreferrer"
@@ -114,29 +101,26 @@ const t = ui[currentLang];
       </div>
     </Section>
 
-    <!-- CELEBRATION -->
+    <!-- RECEPTION - Asymmetric layout (reversed) -->
     <Section id="celebration" title={t["celebration.title"]}>
-      <div class="card overflow-hidden">
+      <div class="asymmetric-section reverse">
         <img
           src={receptionImage.src}
           alt={data.reception.place}
-          class="w-full h-64 md:h-80 object-cover"
+          class="section-image"
           loading="lazy"
         />
-        <div class="p-6 md:p-10">
-          <p class="text-xl font-medium">
-            {data.reception.place} - {data.reception.location}
+        <div class="section-content">
+          <p class="location-name">{data.reception.place}</p>
+          <p class="location-subtitle">{data.reception.location}</p>
+          <p class="location-address">
+            {data.reception.addressLines.join(", ")}
           </p>
-          <p class="text-black/70 mt-2">
-            {data.reception.addressLines.join(" · ")}
-          </p>
-          <p class="text-black/80 mt-4">
-            {data.reception.description}
-          </p>
+          <p class="location-description">{data.reception.description}</p>
           {
             data.reception.mapUrl !== "#" && (
               <a
-                class="link inline-block mt-4"
+                class="link location-link"
                 href={data.reception.mapUrl}
                 target="_blank"
                 rel="noreferrer"
@@ -149,27 +133,25 @@ const t = ui[currentLang];
       </div>
     </Section>
 
-    <!-- ATTENDANCE / RSVP -->
+    <!-- RSVP Section -->
     <Section id="rsvp" title={t["attendance.title"]}>
       <RsvpForm lang={currentLang} />
-      <p class="text-center mt-8 text-xl">{t["attendance.thanks"]}</p>
+      <p class="rsvp-thanks">{t["attendance.thanks"]}</p>
     </Section>
 
     <!-- CONTACT -->
     <Section id="contact" title={t["contact.title"]}>
-      <div class="card p-6 md:p-10 text-center space-y-6">
-        <p class="text-black/80">
-          {data.contact.message}
-        </p>
-        <div class="flex flex-col md:flex-row justify-center gap-6 md:gap-12">
-          <div>
-            <p class="font-medium text-lg">{data.contact.sergio.name}</p>
+      <div class="contact-content">
+        <p class="contact-message">{data.contact.message}</p>
+        <div class="contact-grid">
+          <div class="contact-person">
+            <p class="contact-name">{data.contact.sergio.name}</p>
             <a href={`tel:${data.contact.sergio.phone}`} class="link">
               {data.contact.sergio.phone}
             </a>
           </div>
-          <div>
-            <p class="font-medium text-lg">{data.contact.barbara.name}</p>
+          <div class="contact-person">
+            <p class="contact-name">{data.contact.barbara.name}</p>
             <a href={`tel:${data.contact.barbara.phone}`} class="link">
               {data.contact.barbara.phone}
             </a>
@@ -178,10 +160,227 @@ const t = ui[currentLang];
       </div>
     </Section>
 
-    <footer class="py-16">
-      <div class="container-narrow text-center text-sm text-black/60">
-        {t["footer.built_with"]}
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="container">
+        <p>{t["footer.built_with"]}</p>
       </div>
     </footer>
   </main>
 </BaseLayout>
+
+<style>
+  /* Hero section */
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* Mobile: shift image focus to center on the couple (positioned right in photo) */
+  @media (max-width: 768px) {
+    .hero-bg {
+      object-position: 64% center;
+    }
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .hero-top {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    color: #fff;
+    padding: calc(15vh + 60px) var(--site-gutter, 4vw) 2rem;
+  }
+
+  .hero-bottom {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 2rem var(--site-gutter, 4vw) 8vh;
+  }
+
+  .hero-tagline {
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-date {
+    font-size: 1.125rem;
+    letter-spacing: 0.15em;
+    opacity: 0.85;
+  }
+
+  /* Welcome section */
+  .welcome-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .welcome-text {
+    font-family: var(--font-serif);
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    line-height: 1.8;
+    color: var(--text-secondary);
+  }
+
+  /* Asymmetric sections */
+  .asymmetric-section {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .asymmetric-section {
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+    }
+
+    .asymmetric-section.reverse {
+      direction: rtl;
+    }
+
+    .asymmetric-section.reverse > * {
+      direction: ltr;
+    }
+  }
+
+  .section-image {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+  }
+
+  .section-content {
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .section-content {
+      text-align: left;
+    }
+
+    .asymmetric-section.reverse .section-content {
+      text-align: right;
+    }
+  }
+
+  .location-time {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .location-name {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: 0.5rem;
+  }
+
+  .location-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+  .location-address {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  .location-date {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .location-description {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .location-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+  }
+
+  /* RSVP section */
+  .rsvp-thanks {
+    text-align: center;
+    margin-top: 3rem;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+  }
+
+  /* Contact section */
+  .contact-content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .contact-message {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .contact-grid {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-person {
+    text-align: center;
+  }
+
+  .contact-name {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding: 4rem 0;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+</style>

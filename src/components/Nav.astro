@@ -7,35 +7,278 @@ const t = ui[lang as keyof typeof ui] || ui[defaultLang];
 const getPath = (href: string) => `/${lang}${href}`;
 ---
 
-<header
-  class="sticky top-0 z-20 bg-[color:var(--bg)]/85 backdrop-blur border-b border-black/10"
->
-  <div class="container-narrow flex items-center justify-between py-4">
-    <a href={`/${lang}/`} class="tracking-wide text-sm md:text-base">
-      <span class="font-medium">{couple}</span>
-      <span class="text-black/60"> · {dateDisplay}</span>
-    </a>
-
-    <nav class="hidden md:flex gap-6 text-sm">
-      <a href={getPath("#ceremony")} class="link no-underline hover:underline">
-        {t["nav.ceremony"]}
-      </a>
-      <a
-        href={getPath("#celebration")}
-        class="link no-underline hover:underline"
+<header id="site-header" class="site-header">
+  <div class="header-inner">
+    <!-- Left navigation -->
+    <nav class="header-nav header-nav-left">
+      <a href={getPath("#ceremony")} class="nav-link">{t["nav.ceremony"]}</a>
+      <a href={getPath("#celebration")} class="nav-link"
+        >{t["nav.celebration"]}</a
       >
-        {t["nav.celebration"]}
-      </a>
-      <a href={getPath("#rsvp")} class="link no-underline hover:underline">
-        {t["nav.rsvp"]}
-      </a>
-      <a href={getPath("#contact")} class="link no-underline hover:underline">
-        {t["nav.contact"]}
-      </a>
     </nav>
 
-    <a href={getPath("#rsvp")} class="md:hidden text-sm link no-underline"
-      >{t["nav.rsvp"]}</a
-    >
+    <!-- Center title/logo -->
+    <div class="header-title">
+      <a href={`/${lang}/`} class="title-link">
+        <span class="title-text">{couple}</span>
+        <span class="title-date">{dateDisplay}</span>
+      </a>
+    </div>
+
+    <!-- Right navigation + RSVP button -->
+    <nav class="header-nav header-nav-right">
+      <a href={getPath("#contact")} class="nav-link">{t["nav.contact"]}</a>
+      <a href={getPath("#rsvp")} class="btn btn-light">{t["nav.rsvp"]}</a>
+    </nav>
+
+    <!-- Mobile menu button -->
+    <button class="mobile-menu-btn" aria-label="Menu" id="mobile-menu-btn">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobile-menu">
+    <nav class="mobile-nav">
+      <a href={getPath("#ceremony")} class="mobile-nav-link"
+        >{t["nav.ceremony"]}</a
+      >
+      <a href={getPath("#celebration")} class="mobile-nav-link"
+        >{t["nav.celebration"]}</a
+      >
+      <a href={getPath("#contact")} class="mobile-nav-link"
+        >{t["nav.contact"]}</a
+      >
+      <a href={getPath("#rsvp")} class="btn btn-primary mobile-rsvp-btn"
+        >{t["nav.rsvp"]}</a
+      >
+    </nav>
   </div>
 </header>
+
+<style>
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 1.5rem var(--site-gutter, 4vw);
+    transition:
+      background 0.3s ease,
+      color 0.3s ease;
+  }
+
+  .site-header.scrolled {
+    background: var(--bg);
+    box-shadow: 0 1px 0 var(--border-color);
+  }
+
+  .header-inner {
+    max-width: var(--content-max-width, 1500px);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .header-nav {
+    display: none;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .header-nav {
+      display: flex;
+    }
+  }
+
+  .nav-link {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.2s ease;
+  }
+
+  .nav-link:hover {
+    opacity: 0.7;
+  }
+
+  .header-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .title-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .title-text {
+    font-family: var(--font-serif);
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-weight: 400;
+  }
+
+  .title-date {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    margin-top: 0.25rem;
+  }
+
+  .header-nav-right .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.75rem;
+  }
+
+  /* Default: light text on transparent (for hero) */
+  .site-header {
+    color: var(--text-light, #fff);
+  }
+
+  /* Scrolled: dark text */
+  .site-header.scrolled {
+    color: var(--text-primary, #1a1a1a);
+  }
+
+  .site-header.scrolled .btn-light {
+    background: var(--text-primary);
+    color: var(--text-light);
+    border-color: var(--text-primary);
+  }
+
+  .site-header.scrolled .btn-light:hover {
+    background: transparent;
+    color: var(--text-primary);
+  }
+
+  /* Mobile menu button */
+  .mobile-menu-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-menu-btn {
+      display: none;
+    }
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+  }
+
+  .mobile-menu-btn.active .hamburger-line:first-child {
+    transform: translateY(3.5px) rotate(45deg);
+  }
+
+  .mobile-menu-btn.active .hamburger-line:last-child {
+    transform: translateY(-3.5px) rotate(-45deg);
+  }
+
+  /* Mobile menu overlay */
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg);
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+  }
+
+  .mobile-menu.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .mobile-nav-link {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+
+  .mobile-rsvp-btn {
+    margin-top: 1rem;
+  }
+</style>
+
+<script>
+  // Header scroll behavior
+  const header = document.getElementById("site-header");
+
+  function updateHeaderState() {
+    if (window.scrollY > 100) {
+      header?.classList.add("scrolled");
+    } else {
+      header?.classList.remove("scrolled");
+    }
+  }
+
+  window.addEventListener("scroll", updateHeaderState);
+  updateHeaderState();
+
+  // Mobile menu toggle
+  const menuBtn = document.getElementById("mobile-menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  menuBtn?.addEventListener("click", () => {
+    menuBtn.classList.toggle("active");
+    mobileMenu?.classList.toggle("active");
+    document.body.style.overflow = mobileMenu?.classList.contains("active")
+      ? "hidden"
+      : "";
+  });
+
+  // Close mobile menu when clicking links
+  const mobileLinks = mobileMenu?.querySelectorAll("a");
+  mobileLinks?.forEach((link) => {
+    link.addEventListener("click", () => {
+      menuBtn?.classList.remove("active");
+      mobileMenu?.classList.remove("active");
+      document.body.style.overflow = "";
+    });
+  });
+</script>

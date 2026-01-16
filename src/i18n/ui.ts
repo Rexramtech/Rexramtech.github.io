@@ -37,7 +37,7 @@ export const ui = {
     "rsvp.sending": "Sending…",
     "rsvp.sent": "Sent",
     "rsvp.success": "Thank you! We've received your RSVP.",
-    "footer.built_with": "Made with ❤️",
+    "footer.built_with": "Made with ❤️ by Luca",
   },
   es: {
     "nav.ceremony": "Ceremonia",
@@ -69,7 +69,7 @@ export const ui = {
     "rsvp.sending": "Enviando…",
     "rsvp.sent": "Enviado",
     "rsvp.success": "¡Gracias! Hemos recibido tu respuesta.",
-    "footer.built_with": "Hecho con ❤️",
+    "footer.built_with": "Hecho con ❤️ por Luca",
   },
   pt: {
     "nav.ceremony": "Cerimônia",
@@ -101,6 +101,6 @@ export const ui = {
     "rsvp.sending": "Enviando…",
     "rsvp.sent": "Enviado",
     "rsvp.success": "Obrigado! Recebemos sua confirmação.",
-    "footer.built_with": "Feito com ❤️",
+    "footer.built_with": "Feito com ❤️ por Luca",
   },
 } as const;

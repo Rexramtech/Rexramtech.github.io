@@ -1,10 +1,44 @@
 ---
-const { id, title } = Astro.props;
+interface Props {
+  id?: string;
+  title?: string;
+  className?: string;
+  background?: "light" | "dark";
+}
+
+const { id, title, className = "", background = "light" } = Astro.props;
 ---
 
-<section id={id} class="py-16 md:py-24">
-  <div class="container-narrow">
-    {title && <h2 class="text-3xl md:text-4xl tracking-tight mb-8">{title}</h2>}
+<section
+  id={id}
+  class:list={[
+    "page-section",
+    background === "dark" ? "section-dark" : "",
+    className,
+  ]}
+>
+  <div class="container">
+    {title && <h2 class="section-title">{title}</h2>}
     <slot />
   </div>
 </section>
+
+<style>
+  .page-section {
+    padding-top: var(--section-padding, 8vw);
+    padding-bottom: var(--section-padding, 8vw);
+  }
+
+  .section-dark {
+    background: var(--bg-dark, #1a1a1a);
+    color: var(--text-light, #fff);
+  }
+
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-align: center;
+    margin-bottom: 3rem;
+    font-weight: 400;
+  }
+</style>

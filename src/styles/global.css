@@ -1,23 +1,342 @@
+/* Google Fonts - Playfair Display (serif) + Open Sans (sans-serif) */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
 @import "tailwindcss";
 
-html { scroll-behavior: smooth; }
+html { 
+  scroll-behavior: smooth; 
+}
 
 :root {
+  /* Template-matching color palette */
   --bg: #f6f6f4;
+  --bg-dark: #1a1a1a;
+  --text-primary: #1a1a1a;
+  --text-secondary: rgba(26, 26, 26, 0.7);
+  --text-light: #ffffff;
+  --text-light-secondary: rgba(255, 255, 255, 0.85);
+  --border-color: rgba(26, 26, 26, 0.1);
+  
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  /* Spacing (matching template's 4vw padding) */
+  --site-gutter: 4vw;
+  --section-padding: 8vw;
+  --content-max-width: 1500px;
 }
 
 body {
   background: var(--bg);
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 500;
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.text-large {
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding-left: var(--site-gutter);
+  padding-right: var(--site-gutter);
 }
 
 .container-narrow {
-  @apply mx-auto w-full max-w-5xl px-6;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding-left: var(--site-gutter);
+  padding-right: var(--site-gutter);
 }
 
-.card {
-  @apply bg-white/70 backdrop-blur border border-black/10 rounded-2xl shadow-sm;
+/* Sections */
+.page-section {
+  padding-top: var(--section-padding);
+  padding-bottom: var(--section-padding);
 }
 
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Buttons - Square, solid fill matching template */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--text-primary);
+  color: var(--text-light);
+  border-color: var(--text-primary);
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--text-primary);
+  color: var(--text-light);
+}
+
+.btn-light {
+  background: var(--text-light);
+  color: var(--text-primary);
+  border-color: var(--text-light);
+}
+
+.btn-light:hover {
+  background: transparent;
+  color: var(--text-light);
+}
+
+.btn-light-outline {
+  background: transparent;
+  color: var(--text-light);
+  border-color: var(--text-light);
+}
+
+.btn-light-outline:hover {
+  background: var(--text-light);
+  color: var(--text-primary);
+}
+
+/* Form elements - Square style matching template */
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 1rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--text-primary);
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--text-primary);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--text-secondary);
+}
+
+/* Links */
 .link {
-  @apply underline underline-offset-4 decoration-black/30 hover:decoration-black/70;
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: opacity 0.2s ease;
+}
+
+.link:hover {
+  opacity: 0.7;
+}
+
+/* Hero section */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  color: var(--text-light);
+  padding: var(--site-gutter);
+}
+
+.hero-content h1 {
+  margin-bottom: 0.5rem;
+}
+
+.hero-content .subtitle {
+  font-size: 1.125rem;
+  color: var(--text-light-secondary);
+  margin-bottom: 2rem;
+}
+
+/* Asymmetric grid layout for ceremony/reception sections */
+.asymmetric-section {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .asymmetric-section {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+  
+  .asymmetric-section.reverse {
+    direction: rtl;
+  }
+  
+  .asymmetric-section.reverse > * {
+    direction: ltr;
+  }
+}
+
+.asymmetric-section .section-image {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+}
+
+.asymmetric-section .section-content {
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .asymmetric-section .section-content {
+    text-align: left;
+  }
+  
+  .asymmetric-section.reverse .section-content {
+    text-align: right;
+  }
+}
+
+/* Section with background image */
+.section-with-bg {
+  position: relative;
+  color: var(--text-light);
+}
+
+.section-with-bg .section-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.section-with-bg .section-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.section-with-bg .section-inner {
+  position: relative;
+  z-index: 10;
+}
+
+/* Horizontal divider */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-color);
+  margin: 2rem 0;
+}
+
+/* Footer */
+.site-footer {
+  padding: 4rem 0;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Utility classes */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mt-4 { margin-top: 1rem; }
+.mt-8 { margin-top: 2rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-8 { margin-bottom: 2rem; }
+
+/* Tailwind compat - remove old card styling */
+.card {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
 }
