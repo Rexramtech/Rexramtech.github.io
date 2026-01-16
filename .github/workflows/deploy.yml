@@ -20,8 +20,8 @@ jobs:
         uses: withastro/action@v3
         env:
           PUBLIC_RSVP_ENDPOINT: ${{ secrets.PUBLIC_RSVP_ENDPOINT }}
-          SITE_URL: https://${{ github.repository_owner }}.github.io
-          BASE_PATH: /${{ github.event.repository.name }}
+          SITE_URL: https://sergioybarbara.com
+          BASE_PATH: /
           PUBLIC_IMAGE_STYLE: drawing  # Options: 'drawing' or 'photo'
 
   deploy:
