@@ -51,23 +51,41 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
           <option value="no">{t["rsvp.no"]}</option>
         </select>
       </label>
+    </div>
+
+    <div class="form-row">
+      <label class="form-field">
+        <span class="form-label">{t["rsvp.bus_gandia_alzira"]}</span>
+        <select name="busGandiaAlzira" class="form-input">
+          <option value="no">{t["rsvp.no"]}</option>
+          <option value="yes">{t["rsvp.yes"]}</option>
+        </select>
+      </label>
 
       <label class="form-field">
-        <span class="form-label">{t["rsvp.guests"]}</span>
-        <input
-          name="guests"
-          type="number"
-          min="1"
-          max="10"
-          value="1"
-          class="form-input"
-        />
+        <span class="form-label">{t["rsvp.bus_alzira_gandia"]}</span>
+        <select name="busAlziraGandia" class="form-input">
+          <option value="no">{t["rsvp.no"]}</option>
+          <option value="yes">{t["rsvp.yes"]}</option>
+        </select>
       </label>
     </div>
 
     <label class="form-field">
       <span class="form-label">{t["rsvp.dietary"]}</span>
       <input name="dietary" class="form-input" />
+    </label>
+
+    <label class="form-field">
+      <span class="form-label">{t["rsvp.shoe_size"]}</span>
+      <input
+        name="shoeSize"
+        type="number"
+        min="35"
+        max="45"
+        class="form-input"
+        placeholder="36, 37, 38..."
+      />
     </label>
 
     <label class="form-field">
