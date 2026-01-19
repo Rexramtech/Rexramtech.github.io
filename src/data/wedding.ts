@@ -15,7 +15,7 @@ export const wedding = {
       place: "Santa María de Aguas Vivas",
       addressLines: ["Alzira, Valencia"],
       mapUrl: "https://maps.app.goo.gl/zBy6uRpTWsb3sqjo9",
-      description: "After the ceremony, we will celebrate together at the family estate, where we will continue with cocktails, dinner, and the party.",
+      description: "After the ceremony, we will celebrate together at the family estate, where we will continue with cocktails, lunch, and the party.",
     },
     attendance: {
       deadline: "03/05/2026",
@@ -71,7 +71,7 @@ export const wedding = {
       place: "Santa María de Aguas Vivas",
       addressLines: ["Alzira, Valencia"],
       mapUrl: "https://maps.app.goo.gl/zBy6uRpTWsb3sqjo9",
-      description: "Após a cerimônia, celebraremos juntos na propriedade da família, onde continuaremos com o coquetel, o jantar e a festa.",
+      description: "Após a cerimônia, celebraremos juntos na propriedade da família, onde continuaremos com o coquetel, o almoço e a festa.",
     },
     attendance: {
       deadline: "05/03/2026",
