@@ -1,5 +1,6 @@
 ---
 import { ui, defaultLang } from "../i18n/ui";
+import weddingLogo from "../assets/wedding_logo.png";
 
 const { couple, dateDisplay, lang = defaultLang } = Astro.props;
 const t = ui[lang as keyof typeof ui] || ui[defaultLang];
@@ -20,7 +21,7 @@ const getPath = (href: string) => `/${lang}${href}`;
     <!-- Center title/logo -->
     <div class="header-title">
       <a href={`/${lang}/`} class="title-link">
-        <span class="title-text">{couple}</span>
+        <img src={weddingLogo.src} alt={couple} class="header-logo" />
         <span class="title-date">{dateDisplay}</span>
       </a>
     </div>
@@ -124,10 +125,10 @@ const getPath = (href: string) => `/${lang}${href}`;
     color: inherit;
   }
 
-  .title-text {
-    font-family: var(--font-serif);
-    font-size: clamp(1.25rem, 2vw, 1.5rem);
-    font-weight: 400;
+  .header-logo {
+    height: clamp(50px, 8vw, 80px);
+    width: auto;
+    padding-top: 0.5rem;
   }
 
   .title-date {
@@ -135,6 +136,7 @@ const getPath = (href: string) => `/${lang}${href}`;
     font-size: 0.75rem;
     letter-spacing: 0.2em;
     margin-top: 0.25rem;
+    padding-bottom: 0.5rem;
   }
 
   .header-nav-right .btn {

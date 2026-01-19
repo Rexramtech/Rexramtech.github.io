@@ -1,10 +1,10 @@
-/* Google Fonts - Playfair Display (serif) + Open Sans (sans-serif) */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap');
+/* Google Fonts - Playfair Display (serif) + Open Sans (sans-serif) + Cormorant Garamond (couple names) */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Open+Sans:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap");
 
 @import "tailwindcss";
 
-html { 
-  scroll-behavior: smooth; 
+html {
+  scroll-behavior: smooth;
 }
 
 :root {
@@ -16,11 +16,13 @@ html {
   --text-light: #ffffff;
   --text-light-secondary: rgba(255, 255, 255, 0.85);
   --border-color: rgba(26, 26, 26, 0.1);
-  
+
   /* Typography */
-  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-sans:
+    "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-couple: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+
   /* Spacing (matching template's 4vw padding) */
   --site-gutter: 4vw;
   --section-padding: 8vw;
@@ -39,7 +41,12 @@ body {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-serif);
   font-weight: 400;
   line-height: 1.2;
@@ -252,11 +259,11 @@ p {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
   }
-  
+
   .asymmetric-section.reverse {
     direction: rtl;
   }
-  
+
   .asymmetric-section.reverse > * {
     direction: ltr;
   }
@@ -276,7 +283,7 @@ p {
   .asymmetric-section .section-content {
     text-align: left;
   }
-  
+
   .asymmetric-section.reverse .section-content {
     text-align: right;
   }
@@ -324,14 +331,28 @@ p {
 }
 
 /* Utility classes */
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
 
-.mt-4 { margin-top: 1rem; }
-.mt-8 { margin-top: 2rem; }
-.mb-4 { margin-bottom: 1rem; }
-.mb-8 { margin-bottom: 2rem; }
+.mt-4 {
+  margin-top: 1rem;
+}
+.mt-8 {
+  margin-top: 2rem;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+.mb-8 {
+  margin-bottom: 2rem;
+}
 
 /* Tailwind compat - remove old card styling */
 .card {
