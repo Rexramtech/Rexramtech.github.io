@@ -31,6 +31,7 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
     target="rsvp_hidden_iframe"
     data-lang={lang}
   >
+    <!-- Always visible: Name, Email, Attending -->
     <div class="form-row">
       <label class="form-field">
         <span class="form-label">{t["rsvp.fullname"]}</span>
@@ -46,53 +47,78 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
     <div class="form-row">
       <label class="form-field">
         <span class="form-label">{t["rsvp.attending"]}</span>
-        <select name="attending" required class="form-input">
+        <select
+          name="attending"
+          id="attendingSelect"
+          required
+          class="form-input"
+        >
+          <option value="" disabled selected>—</option>
           <option value="yes">{t["rsvp.yes"]}</option>
           <option value="no">{t["rsvp.no"]}</option>
         </select>
       </label>
     </div>
 
-    <div class="form-row">
+    <!-- Conditional: Only shown when attending = YES -->
+    <div id="attendingYesFields" class="conditional-fields hidden">
+      <div class="form-row">
+        <label class="form-field">
+          <span class="form-label">{t["rsvp.bus_gandia_alzira"]}</span>
+          <select name="busGandiaAlzira" class="form-input">
+            <option value="" disabled selected>—</option>
+            <option value="yes">{t["rsvp.yes"]}</option>
+            <option value="no">{t["rsvp.no"]}</option>
+          </select>
+        </label>
+
+        <label class="form-field">
+          <span class="form-label">{t["rsvp.bus_alzira_gandia"]}</span>
+          <select name="busAlziraGandia" class="form-input">
+            <option value="" disabled selected>—</option>
+            <option value="yes">{t["rsvp.yes"]}</option>
+            <option value="no">{t["rsvp.no"]}</option>
+          </select>
+        </label>
+      </div>
+
       <label class="form-field">
-        <span class="form-label">{t["rsvp.bus_gandia_alzira"]}</span>
-        <select name="busGandiaAlzira" class="form-input">
-          <option value="no">{t["rsvp.no"]}</option>
-          <option value="yes">{t["rsvp.yes"]}</option>
-        </select>
+        <span class="form-label">{t["rsvp.dietary"]}</span>
+        <input name="dietary" class="form-input" />
       </label>
 
       <label class="form-field">
-        <span class="form-label">{t["rsvp.bus_alzira_gandia"]}</span>
-        <select name="busAlziraGandia" class="form-input">
-          <option value="no">{t["rsvp.no"]}</option>
-          <option value="yes">{t["rsvp.yes"]}</option>
-        </select>
+        <span class="form-label">{t["rsvp.shoe_size"]}</span>
+        <input
+          name="shoeSize"
+          type="number"
+          min="35"
+          max="45"
+          class="form-input"
+          placeholder="36, 37, 38..."
+        />
+      </label>
+
+      <label class="form-field">
+        <span class="form-label">{t["rsvp.message"]}</span>
+        <textarea
+          name="message"
+          rows="4"
+          class="form-input form-textarea"
+          disabled></textarea>
       </label>
     </div>
 
-    <label class="form-field">
-      <span class="form-label">{t["rsvp.dietary"]}</span>
-      <input name="dietary" class="form-input" />
-    </label>
-
-    <label class="form-field">
-      <span class="form-label">{t["rsvp.shoe_size"]}</span>
-      <input
-        name="shoeSize"
-        type="number"
-        min="35"
-        max="45"
-        class="form-input"
-        placeholder="36, 37, 38..."
-      />
-    </label>
-
-    <label class="form-field">
-      <span class="form-label">{t["rsvp.message"]}</span>
-      <textarea name="message" rows="4" class="form-input form-textarea"
-      ></textarea>
-    </label>
+    <div id="attendingNoFields" class="conditional-fields hidden">
+      <label class="form-field">
+        <span class="form-label">{t["rsvp.message_not_attending"]}</span>
+        <textarea
+          name="message"
+          rows="4"
+          class="form-input form-textarea"
+          disabled></textarea>
+      </label>
+    </div>
 
     <!-- Honeypot (spam trap): bots fill it, humans won't -->
     <input name="website" tabindex="-1" autocomplete="off" class="hidden" />
@@ -115,19 +141,134 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
     data-sending={t["rsvp.sending"]}
     data-sent={t["rsvp.sent"]}
     data-success={t["rsvp.success"]}
+    data-validation-required={t["rsvp.validation.required"]}
+    data-validation-name={t["rsvp.validation.name_required"]}
   >
   </div>
 
   <script>
-    const form = document.getElementById("rsvpForm");
-    const btn = document.getElementById("rsvpBtn");
+    const form = document.getElementById("rsvpForm") as HTMLFormElement | null;
+    const btn = document.getElementById("rsvpBtn") as HTMLButtonElement | null;
     const status = document.getElementById("rsvpStatus");
     const i18n = document.getElementById("i18n-data");
+    const attendingSelect = document.getElementById(
+      "attendingSelect",
+    ) as HTMLSelectElement | null;
+    const attendingYesFields = document.getElementById("attendingYesFields");
+    const attendingNoFields = document.getElementById("attendingNoFields");
 
+    // Get validation messages
+    const validationRequired =
+      i18n?.dataset.validationRequired || "Please select an option";
+    const validationName =
+      i18n?.dataset.validationName || "Please enter your name";
+
+    // Set custom validation messages on required fields
+    const fullNameInput = form?.querySelector(
+      'input[name="fullName"]',
+    ) as HTMLInputElement | null;
+    const busGandiaSelect = form?.querySelector(
+      'select[name="busGandiaAlzira"]',
+    ) as HTMLSelectElement | null;
+    const busAlziraSelect = form?.querySelector(
+      'select[name="busAlziraGandia"]',
+    ) as HTMLSelectElement | null;
+
+    // Apply custom validation message for name
+    if (fullNameInput) {
+      fullNameInput.addEventListener("invalid", () => {
+        fullNameInput.setCustomValidity(validationName);
+      });
+      fullNameInput.addEventListener("input", () => {
+        fullNameInput.setCustomValidity("");
+      });
+    }
+
+    // Apply custom validation messages for select fields
+    [attendingSelect, busGandiaSelect, busAlziraSelect].forEach((select) => {
+      if (select) {
+        select.addEventListener("invalid", () => {
+          select.setCustomValidity(validationRequired);
+        });
+        select.addEventListener("change", () => {
+          select.setCustomValidity("");
+        });
+      }
+    });
+
+    // Toggle conditional fields based on attending selection
+    function updateConditionalFields() {
+      if (!attendingSelect || !attendingYesFields || !attendingNoFields) return;
+
+      const value = attendingSelect.value;
+
+      // Get both message textareas
+      const messageYes = attendingYesFields.querySelector(
+        'textarea[name="message"]',
+      ) as HTMLTextAreaElement | null;
+      const messageNo = attendingNoFields.querySelector(
+        'textarea[name="message"]',
+      ) as HTMLTextAreaElement | null;
+
+      if (value === "yes") {
+        attendingYesFields.classList.remove("hidden");
+        attendingNoFields.classList.add("hidden");
+        // Enable required on bus fields
+        if (busGandiaSelect) busGandiaSelect.required = true;
+        if (busAlziraSelect) busAlziraSelect.required = true;
+        // Enable "yes" message, disable "no" message
+        if (messageYes) messageYes.disabled = false;
+        if (messageNo) messageNo.disabled = true;
+      } else if (value === "no") {
+        attendingYesFields.classList.add("hidden");
+        attendingNoFields.classList.remove("hidden");
+        // Disable required on bus fields and set default values
+        if (busGandiaSelect) {
+          busGandiaSelect.required = false;
+          busGandiaSelect.value = "no";
+        }
+        if (busAlziraSelect) {
+          busAlziraSelect.required = false;
+          busAlziraSelect.value = "no";
+        }
+        // Clear and disable hidden fields
+        const dietaryInput = form?.querySelector(
+          'input[name="dietary"]',
+        ) as HTMLInputElement | null;
+        const shoeSizeInput = form?.querySelector(
+          'input[name="shoeSize"]',
+        ) as HTMLInputElement | null;
+        if (dietaryInput) dietaryInput.value = "";
+        if (shoeSizeInput) shoeSizeInput.value = "";
+        // Enable "no" message, disable "yes" message
+        if (messageYes) {
+          messageYes.disabled = true;
+          messageYes.value = "";
+        }
+        if (messageNo) messageNo.disabled = false;
+      } else {
+        // No selection yet - hide both, disable required on bus fields
+        attendingYesFields.classList.add("hidden");
+        attendingNoFields.classList.add("hidden");
+        if (busGandiaSelect) busGandiaSelect.required = false;
+        if (busAlziraSelect) busAlziraSelect.required = false;
+        // Disable both message textareas
+        if (messageYes) messageYes.disabled = true;
+        if (messageNo) messageNo.disabled = true;
+      }
+    }
+
+    // Initialize and listen for changes
+    if (attendingSelect) {
+      attendingSelect.addEventListener("change", updateConditionalFields);
+      updateConditionalFields(); // Set initial state
+    }
+
+    // Form submission handler
     if (form && btn && status && i18n) {
-      const tSending = i18n.dataset.sending;
-      const tSent = i18n.dataset.sent;
-      const tSuccess = i18n.dataset.success;
+      const tSending = i18n.dataset.sending || "Sending...";
+      const tSent = i18n.dataset.sent || "Sent";
+      const tSuccess = i18n.dataset.success || "Success!";
 
       form.addEventListener("submit", () => {
         btn.disabled = true;
@@ -137,6 +278,7 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
           status.textContent = tSuccess;
           btn.textContent = tSent;
           form.reset();
+          updateConditionalFields(); // Reset to default state
         }, 600);
       });
     }
@@ -210,9 +352,36 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
     border-color: var(--text-primary);
   }
 
+  /* Fix for mobile select dropdowns */
+  select.form-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+    padding-right: 3rem;
+    cursor: pointer;
+  }
+
+  /* Ensure proper touch target on mobile */
+  @media (max-width: 640px) {
+    select.form-input {
+      min-height: 48px;
+      font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+  }
+
   .form-textarea {
     resize: vertical;
     min-height: 120px;
+  }
+
+  .conditional-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
   .submit-btn {
