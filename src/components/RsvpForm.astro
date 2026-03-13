@@ -74,10 +74,22 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
 
         <label class="form-field">
           <span class="form-label">{t["rsvp.bus_alzira_gandia"]}</span>
-          <select name="busAlziraGandia" class="form-input">
+          <select name="busAlziraGandia" id="busAlziraGandiaSelect" class="form-input">
             <option value="" disabled selected>—</option>
             <option value="yes">{t["rsvp.yes"]}</option>
             <option value="no">{t["rsvp.no"]}</option>
+          </select>
+        </label>
+      </div>
+
+      <!-- Conditional: Only shown when return bus = YES -->
+      <div id="busAlziraGandiaTimeField" class="hidden">
+        <label class="form-field">
+          <span class="form-label">{t["rsvp.bus_alzira_gandia_time"]}</span>
+          <select name="busAlziraGandiaTime" id="busAlziraGandiaTimeSelect" class="form-input">
+            <option value="" disabled selected>—</option>
+            <option value="22:00">{t["rsvp.bus_time_22"]}</option>
+            <option value="01:00">{t["rsvp.bus_time_01"]}</option>
           </select>
         </label>
       </div>
@@ -157,6 +169,17 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
     const attendingYesFields = document.getElementById("attendingYesFields");
     const attendingNoFields = document.getElementById("attendingNoFields");
 
+    // Return bus time elements
+    const busAlziraGandiaSelect = document.getElementById(
+      "busAlziraGandiaSelect",
+    ) as HTMLSelectElement | null;
+    const busAlziraGandiaTimeField = document.getElementById(
+      "busAlziraGandiaTimeField",
+    );
+    const busAlziraGandiaTimeSelect = document.getElementById(
+      "busAlziraGandiaTimeSelect",
+    ) as HTMLSelectElement | null;
+
     // Get validation messages
     const validationRequired =
       i18n?.dataset.validationRequired || "Please select an option";
@@ -185,7 +208,7 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
     }
 
     // Apply custom validation messages for select fields
-    [attendingSelect, busGandiaSelect, busAlziraSelect].forEach((select) => {
+    [attendingSelect, busGandiaSelect, busAlziraSelect, busAlziraGandiaTimeSelect].forEach((select) => {
       if (select) {
         select.addEventListener("invalid", () => {
           select.setCustomValidity(validationRequired);
@@ -195,6 +218,28 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
         });
       }
     });
+
+    // Toggle return bus time dropdown based on return bus selection
+    function updateReturnBusTimeField() {
+      if (!busAlziraGandiaSelect || !busAlziraGandiaTimeField || !busAlziraGandiaTimeSelect) return;
+
+      if (busAlziraGandiaSelect.value === "yes") {
+        busAlziraGandiaTimeField.classList.remove("hidden");
+        busAlziraGandiaTimeSelect.required = true;
+      } else {
+        busAlziraGandiaTimeField.classList.add("hidden");
+        busAlziraGandiaTimeSelect.required = false;
+        busAlziraGandiaTimeSelect.value = "";
+        // Reset to the disabled placeholder
+        const placeholder = busAlziraGandiaTimeSelect.querySelector('option[disabled]') as HTMLOptionElement | null;
+        if (placeholder) placeholder.selected = true;
+      }
+    }
+
+    if (busAlziraGandiaSelect) {
+      busAlziraGandiaSelect.addEventListener("change", updateReturnBusTimeField);
+      updateReturnBusTimeField(); // Set initial state
+    }
 
     // Toggle conditional fields based on attending selection
     function updateConditionalFields() {
@@ -231,6 +276,14 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
           busAlziraSelect.required = false;
           busAlziraSelect.value = "no";
         }
+        // Also hide return bus time field
+        if (busAlziraGandiaTimeField) busAlziraGandiaTimeField.classList.add("hidden");
+        if (busAlziraGandiaTimeSelect) {
+          busAlziraGandiaTimeSelect.required = false;
+          busAlziraGandiaTimeSelect.value = "";
+          const placeholder = busAlziraGandiaTimeSelect.querySelector('option[disabled]') as HTMLOptionElement | null;
+          if (placeholder) placeholder.selected = true;
+        }
         // Clear and disable hidden fields
         const dietaryInput = form?.querySelector(
           'input[name="dietary"]',
@@ -252,6 +305,8 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
         attendingNoFields.classList.add("hidden");
         if (busGandiaSelect) busGandiaSelect.required = false;
         if (busAlziraSelect) busAlziraSelect.required = false;
+        if (busAlziraGandiaTimeSelect) busAlziraGandiaTimeSelect.required = false;
+        if (busAlziraGandiaTimeField) busAlziraGandiaTimeField.classList.add("hidden");
         // Disable both message textareas
         if (messageYes) messageYes.disabled = true;
         if (messageNo) messageNo.disabled = true;
@@ -279,6 +334,7 @@ const rsvpEndpoint = import.meta.env.PUBLIC_RSVP_ENDPOINT || "";
           btn.textContent = tSent;
           form.reset();
           updateConditionalFields(); // Reset to default state
+          updateReturnBusTimeField(); // Reset return bus time
         }, 600);
       });
     }
