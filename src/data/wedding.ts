@@ -7,9 +7,9 @@ export const wedding = {
     ceremony: {
       date: "Saturday, September 19, 2026",
       time: "12:30 PM",
-      place: "La Colegiata de Gandía",
-      addressLines: ["Plaza Apóstoles, 3", "Carrer de l'Abadia, 7", "46701 Gandia, Valencia"],
-      mapUrl: "https://maps.app.goo.gl/rrgh2gMwPXh52HJb8",
+      place: "Iglesia de San Nicolás",
+      addressLines: ["Av. de la Pau, 2", "46730 Gandia, Valencia"],
+      mapUrl: "https://maps.app.goo.gl/phQWjcPazLRYKvKA6",
     },
     reception: {
       place: "Santa María de Aguas Vivas",
@@ -35,9 +35,9 @@ export const wedding = {
     ceremony: {
       date: "Sábado 19 de Septiembre de 2026",
       time: "12:30 h",
-      place: "La Colegiata de Gandía",
-      addressLines: ["Plaza Apóstoles, 3", "Carrer de l'Abadia, 7", "46701 Gandia, Valencia"],
-      mapUrl: "https://maps.app.goo.gl/rrgh2gMwPXh52HJb8",
+      place: "Iglesia de San Nicolás",
+      addressLines: ["Av. de la Pau, 2", "46730 Gandia, Valencia"],
+      mapUrl: "https://maps.app.goo.gl/phQWjcPazLRYKvKA6",
     },
     reception: {
       place: "Santa María de Aguas Vivas",
@@ -63,9 +63,9 @@ export const wedding = {
     ceremony: {
       date: "Sábado, 19 de Setembro de 2026",
       time: "12:30",
-      place: "La Colegiata de Gandía",
-      addressLines: ["Plaza Apóstoles, 3", "Carrer de l'Abadia, 7", "46701 Gandia, Valencia"],
-      mapUrl: "https://maps.app.goo.gl/rrgh2gMwPXh52HJb8",
+      place: "Iglesia de San Nicolás",
+      addressLines: ["Av. de la Pau, 2", "46730 Gandia, Valencia"],
+      mapUrl: "https://maps.app.goo.gl/phQWjcPazLRYKvKA6",
     },
     reception: {
       place: "Santa María de Aguas Vivas",
