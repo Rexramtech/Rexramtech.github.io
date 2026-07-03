@@ -18,6 +18,8 @@ jobs:
 
       - name: Install, build, and upload your site
         uses: withastro/action@v3
+        with:
+          node-version: 22
         env:
           PUBLIC_RSVP_ENDPOINT: ${{ secrets.PUBLIC_RSVP_ENDPOINT }}
           SITE_URL: https://sergioybarbara.com
